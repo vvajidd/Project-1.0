@@ -1,0 +1,44 @@
+{% extends 'adminBase.html' %}
+{% block content %}
+
+
+    
+
+<main class="h-full overflow-y-auto ">
+    <div class="container px-6 mx-auto grid mb-8">
+        
+        
+        <div class="grid gap-3 mb-8 md:grid-cols-2 xl:grid-cols-2">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200" >
+                Add Coupon
+            </h2>
+    
+        </div>
+
+        
+
+        
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-5">
+                {{ form.code }}
+            </div>
+            <div class="mb-5">
+                {{ form.discount }}
+            </div>
+            <div class="mb-5">
+                {{ form.min_value }}
+            </div>
+            <div class="mb-5">
+                {{ form.valid_at }}
+            </div>
+            
+            <button type="submit" class="button px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add Coupon</button>
+    </form>
+        
+    </div>
+  </main>
+
+  
+{% endblock content %}

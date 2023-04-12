@@ -1,0 +1,214 @@
+{% load static %}
+
+
+            {% include 'includes/header.html' %}
+
+            <!-- Hero Section Begin -->
+            <section class="hero">
+                <div class="hero__slider owl-carousel">
+                    <div class="hero__items set-bg mb-4" >
+                        <div><img src="{{ banner.image.url }}" alt=""></div>
+                        {% comment %} <div class="container">
+                            <div class="row">
+                                <div class="col-xl-5 col-lg-7 col-md-8">
+                                    <div class="hero__text">
+                                        <h6>Summer Collection</h6>
+                                        <h2>Fall - Winter Collections 2030</h2>
+                                        <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
+                                        commitment to exceptional quality.</p>
+                                        <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
+                                        <div class="hero__social">
+                                            <a href="#"><i class="fa fa-facebook"></i></a>
+                                            <a href="#"><i class="fa fa-twitter"></i></a>
+                                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                                            <a href="#"><i class="fa fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </section>
+            <!-- Hero Section End -->
+
+            <!-- Product Section Begin -->
+            {% comment %} <section class="product spad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="filter__controls">
+                                <li class="active" data-filter="*">Best Sellers</li>
+                                <li data-filter=".new-arrivals">New Arrivals</li>
+                                <li data-filter=".hot-sales">Hot Sales</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row product__filter">         <!-- ====================================================================================================== -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix">
+                            
+                            {% for product in products %}
+                            
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" data-setbg="{% static 'img/icon/Address.png' %}">
+                                    <ul class="product__hover">
+                                        <li><a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""><span>Wishlist</span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6>Naadan Mathi</h6>
+                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <h5>$67.24</h5>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                        
+                    </div>
+                </div>
+            </section> {% endcomment %}
+            <!-- Product Section End -->
+
+
+            <section class="product spad">
+                <div class="row m-5">
+                    
+                    {% for product in products %}
+
+                    <div class="col-md-3">
+                        <div class="card card-product-grid mb-4">
+                            <a href="{{ product.get_url }}" class="img-wrap"> <img src="{{ product.product_image.url }}" alt=""> </a>
+                            <figcaption class="info-wrap text-center py-2">
+                                <a href="{{ product.get_url }}" class="title text-dark">{{ product.product_name }}</a>
+                                <div class="price mt-1 text-danger mt-3"><strong>MRP: ₹{{ product.price }}</strong></div>
+                            </figcaption>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            
+            <!-- Categories Section Begin -->
+            <section class="categories spad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="categories__text">
+                                <h2>Clothings Hot <br /> <span>Shoe Collection</span> <br /> Accessories</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="categories__hot__deal">
+                                <img src="" alt="">
+                                <div class="hot__deal__sticker">
+                                    <span>Sale Of</span>
+                                    <h5>$29.99</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 offset-lg-1">
+                            <div class="categories__deal__countdown">
+                                <span>Deal Of The Week</span>
+                                <h2>Multi-pocket Chest Bag Black</h2>
+                                <div class="categories__deal__countdown__timer" id="countdown">
+                                    <div class="cd-item">
+                                        <span>3</span>
+                                        <p>Days</p>
+                                    </div>
+                                    <div class="cd-item">
+                                        <span>1</span>
+                                        <p>Hours</p>
+                                    </div>
+                                    <div class="cd-item">
+                                        <span>50</span>
+                                        <p>Minutes</p>
+                                    </div>
+                                    <div class="cd-item">
+                                        <span>18</span>
+                                        <p>Seconds</p>
+                                    </div>
+                                </div>
+                                <a href="#" class="primary-btn">Shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Categories Section End -->
+
+            <!-- Instagram Section Begin -->
+            <section class="instagram spad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="instagram__pic">
+                                <div class="instagram__pic__item set-bg" data-setbg=""></div>
+                                <div class="instagram__pic__item set-bg" data-setbg=""></div>
+                                <div class="instagram__pic__item set-bg" data-setbg=""></div>
+                                <div class="instagram__pic__item set-bg" data-setbg=""></div>
+                                <div class="instagram__pic__item set-bg" data-setbg=""></div>
+                                <div class="instagram__pic__item set-bg" data-setbg=""></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="instagram__text">
+                                <h2>About Our Brand</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua.</p>
+                                <h3>One-Gadjet</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Instagram Section End -->
+
+            <!-- Latest Blog Section Begin -->
+            <section class="latest spad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section-title">
+                                <span>Latest News</span>
+                                <h2>Gadjets New Trends</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="blog__item">
+                                <div class="blog__item__pic set-bg" data-setbg=""></div>
+                                <div class="blog__item__text">
+                                    <span><img src="" alt=""> 16 February 2020</span>
+                                    <h5>What Curling Irons Are The Best Ones</h5>
+                                    <a href="#">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="blog__item">
+                                <div class="blog__item__pic set-bg" data-setbg=""></div>
+                                <div class="blog__item__text">
+                                    <span><img src="" alt=""> 21 February 2020</span>
+                                    <h5>Eternity Bands Do Last Forever</h5>
+                                    <a href="#">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="blog__item">
+                                <div class="blog__item__pic set-bg" data-setbg=""></div>
+                                <div class="blog__item__text">
+                                    <span><img src="" alt=""> 28 February 2020</span>
+                                    <h5>The Health Benefits Of Sunglasses</h5>
+                                    <a href="#">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Latest Blog Section End -->
+
+           {% include 'includes/footer.html' %}

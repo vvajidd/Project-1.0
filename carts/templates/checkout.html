@@ -1,0 +1,243 @@
+{% load static %}
+
+{% include 'includes/header.html' %}
+
+  <!-- Breadcrumb Section Begin -->
+  <section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Check Out</h4>
+                    <div class="breadcrumb__links">
+                        <a href="{% url 'shop' %}">Shop</a>
+                        <a href="{% url 'cart' %}">Cart</a>
+                        <span>Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shopping Cart Section Begin -->
+<div class="mt-4">
+    {% include 'includes/alert.html' %}
+</div>
+
+
+<section class="shopping-cart spad">
+    <div class="container px-5">
+        <div class="row">
+            
+                <div class="col-lg-6">
+                    <div class="card-body">
+                        <form action="{% url 'place_order' %}" method="POST">
+                            {% csrf_token %}
+                            <h4 class="card-title mb-4"><strong>Addresses</strong></h4>
+                            <hr>
+
+                            {% for address in addresses %}
+
+                                <div style="text-transform: uppercase;">
+
+                                    {% if forloop.counter == 1 %}
+                                        {% comment %} <input class="form-check-input d-block ml-1 mt-2" value="{{item.id}}" type="radio" name="flexRadioDefault" checked> {% endcomment %}
+                                        <input type="radio"  name="flexRadioDefault" value="{{ address.id }}" id="address{{ address.id }}" checked>
+                                    {%else%}
+                                        {% comment %} <input class="form-check-input d-block ml-1 mt-2" value="{{address.id}}" type="radio" name="flexRadioDefault"> {% endcomment %}
+                                        <input type="radio" name="flexRadioDefault" value="{{ address.id }}" id="address{{ address.id }}">
+                                    {%endif%}
+                                    
+
+                                    <label><strong>{{address.user.first_name|capfirst}} {{address.user.last_name|capfirst}}</strong></label>
+                                </div>
+                                
+                                <div class="fade show">
+                                    <label for="address{{ address.id }}" class="ml-3">
+                                        <p>{{ address.address_line_1 }}, {{ address.address_line_2}}</p>
+                                        <p> {{ address.city }}, {{ address.state }} </p>   
+                                        <p>{{ address.pin_code }}</p>
+                                    </label>
+                                </div>
+                                <hr>
+                                
+
+                            {% empty %}
+
+                                <p>No Addresses Found</p>
+                                {% comment %} <a href="{% url 'add_address' %}" class="btn btn-dark mb-1" style=" width : 100%;">Add Address</a> {% endcomment %}
+                            {% endfor %}
+                            <a href="{% url 'add_address' %}" class="btn btn-dark mb-1" style=" width : 100%;">Add New Address</a>
+                    </div>
+                </div>
+
+
+{% comment %}----------------------------------------------------------------- C O U P E N ---------------------------------------------------------- {% endcomment %}
+
+                <div class="col-lg-6">
+                    {% comment %} <div class="card">
+                        <div class="card-body">
+                            <form id="coupon_form">
+                                <h4 class="text-dark m-3">
+                                    Have Coupon ?
+                                </h4>
+                                <input type="text" id="coupon_data" name="coupon" placeholder="Enter your coupon code" class="form-control"><br>
+                                <button type="submit" class="site-btn">APPLY COUPON</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <br> {% endcomment %}
+
+                    <div class="card">
+                        <div class="card-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th class="pl-4">Quantity</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+        
+                                    {% for cart_item in cart_items %}
+                                    <tr>
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__pic aside vertical-align-center">
+                                                <img src="{{ cart_item.product.product_image.url }}" class="img-sm" style="width: 100px" alt="">
+                                            </div>
+                                            <div class="product__cart__item__text">
+                                                <h6>{{ cart_item.product.product_name }}</h6>
+                                                <h5>₹{{ cart_item.product.price}}</h5>
+                                            </div>
+                                        </td>
+                                        <td class="quantity__item">
+                                            <div class="col">
+                                                <div class="input-group input-spinner">
+                                                    <label for="">{{ cart_item.quantity }}</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart__price text-danger">₹ {{ cart_item.sub_total }}</td>
+                                    </tr>
+                                    {% endfor %}
+        
+                                </tbody>
+                            </table>
+
+                            <div class="card">
+                                <div class="checkout__order__total">Subtotal <span>₹{{total}}</span></div>
+                                <div class="checkout__order__total">Tax <span>₹{{tax}}</span></div>
+                                <div class="checkout__order__total" id="coupon_block" style="display: none;">Discount <span>- ₹<b id="coupon_discount"></b></span>
+                                <h1 class="text-danger" style="font-size: 12px;">*Coupon Applied - <b id="coupon_code"></b></h1>
+                                </div>
+                                <div class="checkout__order__total">Total <span id='grand_total'>₹{{grand_total}}</span></div>
+                                <input type="text" name="coupon" id="coupon_code1" style="display: none;">
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-dark btn-block">Place Order</button>
+                            <a href="{% url 'shop' %}" class="btn btn-dark btn-block">Countinue Shopping</a>
+                        </form>
+                        </div>
+                    </div>
+                    <div class="card">
+
+                        <input type="button" value="Coupon" onclick="displayCoupon()" class="btn btn-outline-secondary " >
+                                
+
+                                <div class="shoping__continue" id="applycoupon" style="opacity: 0; transition: opacity 0.5s;">
+                                    <div class="shoping__discount">
+\                                        <form id="coupon_form">
+                                            <input type="text" id="coupon_data" placeholder="Enter your coupon code">
+                                            <button type="submit" class="site-btn">APPLY COUPON</button>
+                                        </form>
+                                    </div>
+                                    <p class="text-danger mt-3" id="output"></p>
+                                </div>
+        
+                                {% if coupons %}
+                                <div class="accordion mt-3 shoping__discount" id="accordionExample">
+                                   
+                                </div>
+                                {%endif%}
+        
+                        
+
+            
+                                <div class="coupon text-center">
+                                    <h5 class="">Available Coupons</h5>
+                                    <ul id="coupon-list">
+                                      {% for coupon in active_coupons %}
+                                        <li class=""><span class="code">{{ coupon.code }}</span> - <span class="discount">{{ coupon.discount }}</span>% off on orders above ₹<span class="min-value">{{ coupon.min_value }}</span></li>
+                                      {% endfor %}
+                                    </ul>
+                                </div>
+
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</section>
+<!-- Shopping Cart Section End -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $('#coupon_form').on('submit', function(e){
+             
+        e.preventDefault();
+        
+          $.ajax({
+               type : "POST", 
+               url: "{% url 'coupon' %}",
+               data: {
+                   coupon : $('#coupon_data').val(),
+                   grand_total : '{{grand_total}}',
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                dataType: "json",
+        
+               },
+               
+               success: function(data){
+                  $('#output').html(data.msg) /* response message */
+                  $('#grand_total').text('₹'+data.grand_total)
+                  if (data.coupon_discount > 0) {
+                      $('#coupon_block').show()
+                      $('#accordionExample').hide()
+                  }
+                  $('#coupon_discount').html(data.coupon_discount)
+                  $('#coupon_code').html(data.coupon_code)
+                  $('#coupon_code1').val(data.coupon_code)
+
+                  
+               },
+        
+               failure: function() {
+                   
+               }
+        
+        
+           });
+        
+        
+                });  
+
+</script>
+<script>
+    function displayCoupon() {
+  var x = document.getElementById("applycoupon");
+  if (x.style.opacity == 0) {
+    x.style.opacity = 1;
+  } else {
+    x.style.opacity = 0;
+  }
+}
+</script>
+
+
+{% include 'includes/footer.html' %}

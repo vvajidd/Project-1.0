@@ -1,0 +1,115 @@
+{% load static %}
+
+{% include 'includes/header.html' %}
+
+  <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Shopping Cart</h4>
+                    <div class="breadcrumb__links">
+                        <a href="{% url 'home' %}">Home</a>
+                        <a href="{% url 'shop' %}">Shop</a>
+                        <span>Shopping Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shopping Cart Section Begin -->
+{% if not cart_items %}
+
+    <div class="text-center m-5">
+        <h2>Your Cart is Empty !</h2>
+        <a href="{% url 'shop' %}" class="btn btn-outline-dark mt-3">CONTINUE SHOPPING</a>
+    </div>
+
+{% else %}
+
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="shopping__cart__table">
+
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="pl-4">Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for cart_item in cart_items %}
+                            <tr>
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic aside vertical-align-center">
+                                        <img src="{{ cart_item.product.product_image.url }}" class="img-sm" style="width: 100px" alt="">
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <h6>{{ cart_item.product.product_name }}</h6>
+                                        <h5>₹{{ cart_item.product.price}}</h5>
+                                    </div>
+                                </td>
+                                <td class="quantity__item">
+                                    <div class="col">
+                                        <div class="input-group input-spinner">
+                                            <div>
+                                                <a href="{% url 'remove_cart' cart_item.product.id %}" class="btn btn-outline-dark" type="button" id="button-minus"><i class="fa fa-minus"></i></a>
+                                            </div>
+                                            <input type="text" class="form-control text-center" value="{{ cart_item.quantity }}">
+                                            <div>
+                                                <a href="{% url 'add_cart' cart_item.product.id %}" class="btn btn-outline-dark" type="button" id="button-minus"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="cart__price text-danger">₹ {{ total }}</td>
+                                <td class="cart__close"><a href="{% url 'delete_cart' cart_item.product.id %}"><i class="fa fa-close"></i></a></td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+                
+            </div>
+            <div class="col-lg-4">
+
+                {% comment %} <div class="cart__discount">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Coupon code">
+                        <button type="submit">Apply</button>
+                    </form>
+                </div> {% endcomment %}
+
+                <div class="cart__total">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Total Price <span>₹ {{total | floatformat:2 }}</span></li>
+                        <li>Tax <span>₹ {{tax | floatformat:2 }}</span></li>
+                        <li>Grand Total<span>₹ {{ grand_total | floatformat:2 }}</span></li>
+                    </ul>
+                    <a href="{% url 'checkout' %}" class="btn btn-dark" style="width: 100%">CHECKOUT</a>
+                    <a href="{% url 'shop' %}" class="btn btn-outline-dark mt-2" style="width: 100%">CONTINUE SHOPPING</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+<!-- Shopping Cart Section End -->
+
+{% include 'includes/footer.html' %}

@@ -1,0 +1,148 @@
+  {% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Male_Fashion Template">
+        <meta name="keywords" content="Male_Fashion, unica, creative, html">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>FishWharf</title>
+
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+        <!-- Css Styles -->
+        <link rel="stylesheet" href="https://cdn.usebootstrap.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'css/elegant-icons.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+
+
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div class="offcanvas-menu-overlay"></div>
+        <div class="offcanvas-menu-wrapper">
+            <div class="offcanvas__nav__option">
+                    <form action="{% url 'search' %}" method="GET"> 
+                        <div class="input-group w-100">
+                            <input type="text" class="form-control" style="width: 60%;" placeholder="Search" name="keyword">
+                            <div class="input-group-append">
+                                <button class="btn btn-dark" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        </form>
+                <a href="#"><img src="" alt=""></a>
+                <a href="{% url 'cart' %}"><img src="" alt=""><span>0</span></a>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+            <div class="offcanvas__text">
+                <p>Free shipping on purchase above ₹400</p>
+            </div>
+            <div class="offcanvas__option">
+                <div class="offcanvas__links">
+                    <a href="{% url 'logout' %}" class="text-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+        <!-- Offcanvas Menu End -->
+
+        <!-- Header Section Begin -->
+        <header class="header">
+            <div class="header__top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7">
+                            <div class="header__top__left">
+                                {% if request.user.is_admin %}
+                                    <div class="header__top__links">
+                                        <a href="{% url 'adminDashboard' %}" class="px-3">admin</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5">
+                            <div class="header__top__right">
+
+                                {% if user.id is None %}
+                                    <div class="header__top__links">
+                                        <a href=""> About us</a>
+                                        <a href="{% url 'login' %}">Sign In</a>
+                                        <a href="{% url 'register' %}">Register</a>
+                                    </div>
+                                {% else %}                                    
+                                    <div class="header__top__links">
+                                        <a href="{% url 'dashboard' %}">{{ user.first_name }}</a>
+                                        <a href="#"> About us</a>
+                                        <a href="{% url 'logout' %}">Logout</a>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__logo">
+                            <a href="{% url 'home' %}"><img src="{% static 'img/logo/logo.png' %}" width="150" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li class="{% if '/' == request.path %}active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
+                                <li class="{% if '/shop/' == request.path %}active{% endif %}"><a href="{% url 'shop' %}">Shop</a></li>
+                                <li><a href="">Contacts</a></li>
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <nav class="header__menu">
+                            <ul>
+                                <li>
+                                    <form action="{% url 'search' %}" method="GET"> 
+                                    <div class="input-group w-100">
+                                        <input type="text" class="form-control" style="width: 60%;" placeholder="Search" name="keyword">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-dark" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </li>
+                            </ul>
+                            
+                        </nav>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <div class="header__nav__option">
+                            <div class="col-lg col-md-6 col-sm-12 col">
+                                
+                            </div>
+                            <a href="{% url 'wishlist' %}"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
+                            <a href="{% url 'cart' %}"><img src="{% static 'img/icon/cart.png' %}" alt=""><span></span></a>
+                            <a href="{% url 'dashboard' %}"><img src="{% static 'img/icon/userprofile.png' %}" style="width :25px;"alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="canvas__open"><i class="fa fa-bars"></i></div>
+            </div>
+        </header>

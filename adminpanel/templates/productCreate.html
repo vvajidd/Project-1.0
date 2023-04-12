@@ -1,0 +1,63 @@
+{% extends 'adminBase.html' %}
+{% block content %}
+
+
+    
+
+<main class="h-full overflow-y-auto ">
+    <div class="container px-6 mx-auto grid mb-8">
+        
+        
+        <div class="grid gap-3 mb-8 md:grid-cols-2 xl:grid-cols-2">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200" >
+                Add Product
+            </h2>
+    
+        </div>
+
+        
+
+        
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-5">
+                {{ form.product_name }}
+            </div>
+            <div class="mb-5">
+                {{ form.slug }}
+            </div>
+            <div class="mb-5">
+                {{ form.description }}
+            </div>
+            <div class="mb-5">
+                {{ form.price }}
+            </div>
+            <div class="mb-5">
+                <h6 class="text-white">Choose Image</h6>
+                {{ form.product_image }}
+            </div>
+            <div class="mb-5">
+                {{ form.stock }}
+            </div>
+            <div class="mb-5">
+                <h6 class="text-white">Select Category</h6>
+                {{ form.category }}
+            </div>
+            <button type="submit" class="button px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add Product</button>
+    </form>
+        
+    </div>
+  </main>
+
+  <script>
+    const product_nameField = document.getElementById('product_name');
+    const slugField = document.getElementById('slug');
+  
+    product_nameField.addEventListener('input', () => {
+      const product_nameValue = product_nameField.value;
+      const slugValue = product_nameValue.toLowerCase().replace(/\s+/g, '-');
+      slugField.value = slugValue;
+    });
+  </script>
+{% endblock content %}

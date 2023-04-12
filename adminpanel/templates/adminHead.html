@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% if '/admin/' == request.path %}Admin Dashboard
+
+            {% elif '/admin/users/' == request.path or '/admin/user-search/' in request.path %}User Managment
+            {% elif '/admin/user/edit/' == request.path %}User Edit
+            {% elif '/admin/products/' == request.path or 'admin/product-search' in request.path %}Product Managment
+            {% elif '/admin/product/create/' == request.path %}Add Product
+            {% elif 'admin/product-edit' in request.path %}Edit Product
+
+            {% elif 'admin/categories/' in request.path or '/admin/category_search' in request.path %}Category Managment
+
+            {% elif 'admin/coupons/' in request.path %}Coupon Managment
+            {% elif 'admin/coupon/create/' in request.path %}Add Coupon
+            {% elif 'admin/coupon-edit' in request.path %}Edit Coupon
+            {% endif %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/tailwind.output.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer ></script>
+    <script src="{% static 'js/init-alpine.js' %}"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer ></script>
+    <script src="{% static 'js/charts-lines.js' %}" defer></script>
+    <script src="{% static 'js/charts-pie.js' %}" defer></script>
+
+  </head>

@@ -1,0 +1,92 @@
+{% load static %}
+
+{% include 'includes/header.html' %}
+
+  <!-- Breadcrumb Section Begin -->
+  <section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Wishlists</h4>
+                    <div class="breadcrumb__links">
+                        <a href="{% url 'home' %}">Home</a>
+                        {% comment %} <a href="{% url 'shop' %}">Shop</a> {% endcomment %}
+                        <span>Wishlist</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Breadcrumb Section End -->
+
+<!-- Shopping Cart Section Begin -->
+
+{% if not wishlist_items %}
+    <div class="text-center m-5">
+        <h2>You haven't Wishlisted anything !</h2>
+        <a href="{% url 'shop' %}" class="btn btn-outline-dark mt-3">EXPLORE PRODUCTS</a>
+    </div>
+{% else %}
+
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shopping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="">Product</th>
+                                <th class="pl-5">Price</th>
+                                <th>Actions</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for item in wishlist_items %}
+                            <tr>
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic aside vertical-align-center">
+                                        <a href="{{item.product.get_url}}"><img src="{{ item.product.product_image.url }}" class="img-sm" style="width: 100px" alt=""></a>
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <a href="{{item.product.get_url}}" class="text-dark">{{ item.product.product_name }}</a>
+                                        
+                                    </div>
+                                </td>
+                                <td class="pl-5">
+                                    <h5 class="text-danger">₹{{ item.product.price }}</h5>
+                                </td>
+                                <td class="cart__close">
+                                    <a href="{% url 'remove_wishlist' item.product.id %}"><i class="fa fa-close"></i></a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'add_cart' item.product.id %}" class="btn btn-primary">ADD CART</a>
+                                </td>
+
+                                
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+
+                
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+
+<!-- Shopping Cart Section End -->
+
+{% include 'includes/footer.html' %}

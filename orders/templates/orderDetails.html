@@ -1,0 +1,138 @@
+{% include 'includes/header.html' %}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          
+          {% include 'includes/alert.html' %}
+          <div class="invoice p-5">
+            <h5>Order Details</h5>
+  
+            <span class="font-weight-bold d-block mt-4 text-secondary">Hello, <span style="text-transform: uppercase;" class="text-dark">{{order.full_name}}</span></span>
+            <span
+              ></span>
+  
+            <div
+              class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                   
+                    <td>
+                      <div class="py-2">
+                        <span class="d-block text-muted">Order No</span>
+                        <span>{{order.order_number}}</span>
+                      </div>
+                    </td>
+  
+                    <td>
+                      <div class="py-2">
+                        <span class="d-block text-muted">Total Cost</span>
+                        <span>{{order.order_total}}</span>
+                      </div>
+                    </td> 
+  
+                    <td>
+                      <div class="py-2">
+                        <span class="d-block text-muted">Shiping Address</span>
+                        <span>{{order.full_address}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="py-2">
+                        <span class="d-block text-muted">Status</span>
+                        <span>{{order.status}}</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="card text-center">
+              <h5 class="card-header"> <strong> Ordered Products </strong></h5>
+              
+              <div class="col-lg-12 table-responsive m-0 p-0" >
+                <table class="table table-bordered text-center mb-0">
+                  <thead class="bg text-dark">
+                    <tr>
+                      <th class="align-middle p-0 m-0">Products</th>
+                      
+                      <th class="align-middle p-0 m-0">Price</th>
+                      <th class="align-middle p-0 m-0">Quantity</th>
+                      
+                     
+                      
+                    </tr>
+                  </thead>
+                  <tbody class="align-middle">
+                    {% for item in orderProduct %}
+                    <tr>
+                      <td class="align-middle p-2 m-2"><img src="{{ item.product.product_image.url }}" alt="" style="width: 60px;"> 
+                        <div class="row">
+                          <h6 class="pl-3">{{ item.product.product_name |truncatechars:40 }}</h6>
+                        </div>
+                      </td>
+                      
+                      <td class="align-middle">Rs. {{ item.product.price |floatformat:2}}</td>
+                      
+                      <td class="align-middle text-muted small">
+                        
+                        <h6>{{ item.quantity }}</h6>
+                          
+                        
+                      </td>
+                      
+                      
+                      
+                      
+                      
+                       {% comment %} <p class="text-muted small">
+                        {% if item.variations.all %}
+                          {% for item in item.variation.all %}
+                            {{ item.variationCategory | capfirst }} : {{ item.variationValue | capfirst }} <br>
+                          {% endfor %}
+                        {% endif %}
+                      </p> 
+                                 {% endcomment %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+  
+  
+  
+            <div class="d-grid gap-2 d-md-block py-4 align-center">
+              {% if order.status == 'Refunded' %}
+              <span>Order is already returned</span>
+              {% elif order.status == 'Delivered' %}
+                  {% if request.GET.returned == 'true' %}
+                      <span>Order is returned</span>
+                  {% else %}
+                      <a href="{% url 'returnProduct' order.id %}?returned=true" class="btn btn-primary" type="button">Return Order</a>
+                  {% endif %}
+              {% elif order.status == 'Cancelled' %}
+                  <span>Order is cancelled</span>
+              {% elif order.status == 'New' %}
+                  <a href="{% url 'cancel_order' order.payment_id %}" class="btn btn-danger" type="button">Cancel Order</a>
+              {% else %}
+                  <span>Order is On the Way</span>
+              {% endif %}
+          
+            </div>
+  
+            <p>
+            </p>
+            <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+            <span>Team</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'includes/footer.html' %}

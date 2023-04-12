@@ -1,0 +1,14 @@
+<div>
+    <div class="card-body">
+        <div class="row p-1">
+            <ul style="width : 100%">
+                <a href="{% url 'dashboard' %}" class="btn btn-dark mb-1 {% if '/accounts/profile/' == request.path %}active{% endif %}" style=" width : 100%;">My Profile</a>
+                <a href="{% url 'edit_profile' %}" class="btn btn-dark mb-1 {% if '/accounts/edit_profile/' == request.path %}active{% endif %}" style=" width : 100%;">Edit Profile</a>
+                <a href="{% url 'orders' %}" class="btn btn-dark mb-1 {% if '/accounts/orders/' == request.path %}active{% endif %}" style=" width : 100%;">My Orders</a>
+                <a href="{% url 'add_address' %}" class="btn btn-dark mb-1 {% if '/accounts/add_address/' == request.path %}active{% endif %}" style=" width : 100%;">Address</a>
+                <a href="{% url 'changePassword' %}" class="btn btn-dark mb-3 {% if '/accounts/changePassword/' == request.path %}active{% endif %}" style=" width : 100%;">Change Password</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger" style=" width : 100%;">Logout</a>
+            </ul>
+        </div>
+    </div>
+</div>
