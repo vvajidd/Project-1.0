@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,9 +31,9 @@ SECRET_KEY = env('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -94,13 +95,25 @@ AUTH_USER_MODEL = 'accounts.Account'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
+if DEBUG == True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USERNAME'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+
 
 
 # Password validation
@@ -136,20 +149,32 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR/'static'
-STATICFILES_DIRS =[
-    'fishWharf/static/',
-    'accounts/static/',
-    'adminpanel/static/'
-]
+if DEBUG == True:
+    STATIC_URL = 'static/'
+    STATIC_ROOT = BASE_DIR/'static'
+    STATICFILES_DIRS =[
+        'fishWharf/static/',
+        'accounts/static/',
+        'adminpanel/static/'
+    ]
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATICFILES_DIRS =[
+        os.path.join(BASE_DIR, 'fishWharf', 'static'),
+        os.path.join(BASE_DIR, 'accounts', 'static'),
+        os.path.join(BASE_DIR, 'adminpanel', 'static'),
+    ]
 
 # media file configuration
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR/'media'
-MEDIAFILES_DIRS =[
-]
+if DEBUG == True:
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = BASE_DIR/'media'
+    MEDIAFILES_DIRS =[
+    ]
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = '/home/ubuntu/ecommerce/Project-1.0'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
