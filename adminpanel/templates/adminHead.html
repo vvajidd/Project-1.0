@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% if '/admin/' == request.path %}Admin Dashboard
+    <title>{% if 'admin/dashboard/' in request.path %}Admin Dashboard
 
             {% elif '/admin/users/' == request.path or '/admin/user-search/' in request.path %}User Managment
             {% elif '/admin/user/edit/' == request.path %}User Edit
