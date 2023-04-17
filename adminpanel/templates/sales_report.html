@@ -1,0 +1,50 @@
+{% extends 'adminBase.html' %}
+
+{% block content %}
+
+<h1>Sales Report</h1>
+<form method="post">
+  {% csrf_token %}
+  <label for="start_date">Start Date:</label>
+  <input type="date" name="start_date" required>
+  <label for="end_date">End Date:</label>
+  <input type="date" name="end_date" required>
+  <button type="submit">Generate Report</button>
+</form>
+{% if payments %}
+<h2>Sales Report for {{ payments.0.created_at|date:"F j, Y" }} - {{ payments.last.created_at|date:"F j, Y" }}</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Payment ID</th>
+      <th>Payment Method</th>
+      <th>Order ID</th>
+      <th>Amount Paid</th>
+      <th>Status</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for payment in payments %}
+    <tr>
+      <td>{{ payment.payment_id }}</td>
+      <td>{{ payment.payment_method }}</td>
+      <td>{{ payment.order_id }}</td>
+      <td>{{ payment.amount_paid }}</td>
+      <td>{{ payment.status }}</td>
+      <td>{{ payment.created_at|date:"F j, Y g:i A" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3"></td>
+      <th>Total Amount Paid:</th>
+      <td>{{ total_amount_paid }}</td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>
+{% endif %}
+
+{% endblock content %}

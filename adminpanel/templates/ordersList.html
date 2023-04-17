@@ -8,13 +8,14 @@
       <div class="mt-8">
           <div class="relative w-full max-w-xl mr-6 focus-within:text-purple-500" >
               <form action="{% url 'coupon_search' %}">
-                  <div class="absolute inset-y-0 flex items-center pl-2">
-                    <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" >
-                      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" ></path>
-                    </svg>
-                  </div>
                   <input name="keyword" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search Users" aria-label="Search" />
-                  {% comment %} <button class="btn btn-outline-primary" type ="submit" >search</button> {% endcomment %}
+                  <div class="absolute inset-y-0 flex items-center pl-2">
+                    <button type="submit">
+                      <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" >
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" ></path>
+                      </svg>
+                    </button>
+                  </div>
                 </form>
           </div>
       </div>
@@ -24,11 +25,11 @@
           </h2>
       </div>
         
-        {% if 'admin/coupons/search/' in request.path %}
+        {% if 'admin/order/search/' in request.path %}
            <h4 class="text-white mb-4">Search results</h4>
 
         
-        {% elif '/admin/coupons/' in request.path %}
+        {% elif '/admin/orders/' in request.path %}
           <!-- Cards -->
           <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
 
@@ -40,8 +41,8 @@
                       </svg>
                   </div>
                   <div>
-                      <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" > Total Coupons </p>
-                      <p class="text-lg font-semibold text-gray-700 dark:text-gray-200" > {{ coupons_count }} </p>
+                      <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" > Total Orders </p>
+                      <p class="text-lg font-semibold text-gray-700 dark:text-gray-200" > {{ orders_count }} </p>
                   </div>
               </div>
 
@@ -62,8 +63,8 @@
                     <th class="px-4 py-3">Amount</th>
                     <th class="px-4 py-3">Payment Method</th>
                     <th class="px-4 py-3">Tracking id</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Actions</th>
+                    <th class="px-4 py-3">Order Status</th>
+                    {% comment %} <th class="px-4 py-3">Actions</th> {% endcomment %}
                   </tr>
 
               </thead>
@@ -82,24 +83,32 @@
 
 
                   <td class="px-4 py-3 text-xs">
-                    {{ order.order_total }}
-                  </td>
+                      ₹ {{ order.order_total }}
+                    </td>
 
-                  <td>
-                    {{ order.payment.payment_method }}
-                  </td>
+                    <td>
+                      {{ order.payment.payment_method }}
+                    </td>
 
-                  <td class="px-4 py-3">
-                    {{ order.order_number }}
-                  </td>
+                    <td class="px-4 py-3">
+                    #{{ order.order_number }}
+                    </td>
 
                   <td class="px-4 py-3 text-xs">
-                    {{ order.status }}
+                    {% if order.status == 'New'  %}
+                    <a href="{% url 'ordersStatus' order.id %}" class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">{{ order.status }}</a>
+                    {% elif order.status == 'Delivered' %}
+                    <a href="{% url 'ordersStatus' order.id %}" class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">{{ order.status }}</a>
+                    {% elif order.status == 'Cancelled' %}
+                    <a href="{% url 'ordersStatus' order.id %}" class="px-2 py-1 font-semibold leading-tight text-green-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">{{ order.status }}</a>
+                    {% elif order.status == 'Refunded' %}
+                    <button disabled class="px-2 py-1 font-semibold leading-tight text-dark-700 rounded-full dark:text-red-100">{{ order.status }}</button>
+                    {% endif %}
                   </td>
 
-                  <td>
-
-                  </td>
+                  {% comment %} <td>
+                    <a href="{% url 'orderStatus' order.id %}" class="">status</a>
+                  </td> {% endcomment %}
 
                 </tr>
                 {% endfor %}

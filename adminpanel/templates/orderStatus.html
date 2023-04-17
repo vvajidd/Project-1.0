@@ -1,0 +1,34 @@
+{% extends 'adminBase.html' %}
+
+{% block content %}
+{% include 'includes/tailwind_alert.html' %}
+
+
+<main class="h-full overflow-y-auto">
+  <div class="container px-6 mx-auto grid text-white mt-8">
+    <div class="grid gap-6 mb-8 md:grid-cols-2 text-center">
+      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800 text-center" >
+        <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">Order ID : {{ order.order_number }}</h4>
+        <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">Current Status: {{ order.status }}</h4>
+        <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400" >
+          <form method='POST'>
+            {% csrf_token %}
+            <div class="flex flexrow">
+                <label for="status" class="w-full">New Status:</label>
+                <select name="status" id="status" class="bg-gray-50 border border-gray-300 mr-8 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <option value="New" {% if order.status == 'New' %}selected{% endif %} disabled>New</option>
+                  <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                  <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                  <option value="Refunded" {% if order.status == 'Refunded' %}selected{% endif %}>Refunded</option>
+                </select>
+                <button type="submit" class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700 w-56 h-8">Update</button>
+            </div>
+          </form> 
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+{% endblock content %}

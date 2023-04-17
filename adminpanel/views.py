@@ -8,12 +8,16 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.generic.edit import UpdateView, CreateView
 from django.db.models import Q
+from django.db.models import Sum
+from django.utils import timezone
+import calendar
+from datetime import datetime,timedelta
 
 from accounts.models import Account
 from accounts.forms import UserForm
 from category.forms import CategoryForm
 from products.models import Product
-from orders.models import OrderProduct, Coupon, Order
+from orders.models import OrderProduct, Coupon, Order, Payment
 from orders.forms import CouponForm
 from category.models import Category
 from products.forms import ProductForm
@@ -48,7 +52,11 @@ class AdminDashboard(UserPassesTestMixin, LoginRequiredMixin, TemplateView ):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_count'] = Account.objects.all().count()
-        context['order_count'] = OrderProduct.objects.all().count()
+        context['product_count'] = Product.objects.all().count()
+        context['order_count'] = Order.objects.all().count()
+        context['total_amount'] = Payment.objects.aggregate(Sum('amount_paid'))['amount_paid__sum']/100
+
+
         return context
     
     def test_func(self):
@@ -302,4 +310,63 @@ class OrdersList(LoginRequiredMixin, ListView):
     template_name = 'ordersList.html'
     model = Order
     context_object_name = 'orders'
+    ordering = ['-created_at']
     paginate_by = 15
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["orders_count"] = Order.objects.all().count()
+        return context
+    
+    
+        
+
+def order_status(request, order_id):
+    order = Order.objects.get(id = order_id)
+
+    if request.method == "POST":
+        status = request.POST.get('status')
+        if status == 'Delivered':
+            if order.status == 'Cancelled':
+                messages.error(request, 'This order has already been delivered and cannot be cancelled.')
+            else:
+                order.status = 'Delivered'
+                order.save()
+                messages.success(request, f'Order with tracking id {order.order_number} has been Delivered.')
+        elif status == 'Cancelled':
+            if order.status == 'Delivered':
+                messages.error(request, 'This order has already been delivered and cannot be cancelled.')
+            else:
+                order.status = 'Cancelled'
+                order.save()
+                messages.success(request, f'Order with tracking id {order.order_number} has been Cancelled.')
+        elif status == 'Refunded':
+            if order.payment.payment_method == 'RazorPay':
+                if order.status == 'Cancelled':
+                    order.status = 'Refunded'
+                    order.save()
+                    messages.success(request, 'Order Refunded !')
+                else:
+                    messages.error(request, 'This action can\'t be done since this product is not Cancelled !')
+            else:
+                messages.error(request, 'Cash on Delivery Orders cant be refunded!')
+
+    context ={
+        'order' : order,
+    }
+
+    return render(request, 'orderStatus.html', context)
+
+def sales_data(request):
+    if request.method == 'POST':
+         start_date = request.POST['start_date']
+         end_date = request.POST['end_date']
+         order = Payment.objects.filter(created_at__range=[start_date, end_date])
+         total_amount_paid = order.aggregate(Sum('amount_paid'))['amount_paid__sum']
+         context = {
+             'order' : order,
+             'total_amount_paid' : total_amount_paid,
+         }
+         return render(request, 'sales_report.html', context)
+    return render(request, 'sales_report.html')
+    

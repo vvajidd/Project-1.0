@@ -9,7 +9,7 @@
         <meta name="keywords" content="Male_Fashion, unica, creative, html">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>FishWharf</title>
+        <title>Finzor</title>
 
 
         <!-- Google Font -->
@@ -33,7 +33,7 @@
 
     <body>
         <div class="offcanvas-menu-overlay"></div>
-        <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas-menu-wrapper text-center">
             <div class="offcanvas__nav__option">
                     <form action="{% url 'search' %}" method="GET"> 
                         <div class="input-group w-100">
@@ -46,17 +46,15 @@
                         </div>
                         </form>
                 <a href="#"><img src="" alt=""></a>
-                <a href="{% url 'cart' %}"><img src="" alt=""><span>0</span></a>
             </div>
             <div id="mobile-menu-wrap"></div>
-            <div class="offcanvas__text">
-                <p>Free shipping on purchase above ₹400</p>
-            </div>
-            <div class="offcanvas__option">
-                <div class="offcanvas__links">
+                <div class="offcanvas__text">
                     <a href="{% url 'logout' %}" class="text-danger">Logout</a>
                 </div>
+            <div class="offcanvas__text">
+                <a href="{% url 'home' %}"><img src="{% static 'img/logo/logo.png' %}"  height="50" alt=""></a>
             </div>
+            
         </div>
         <!-- Offcanvas Menu End -->
 
@@ -100,7 +98,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3">
                         <div class="header__logo">
-                            <a href="{% url 'home' %}"><img src="{% static 'img/logo/logo.png' %}" width="150" alt=""></a>
+                            <a href="{% url 'home' %}"><img src="{% static 'img/logo/logo.png' %}"  height="50" alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">

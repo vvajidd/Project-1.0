@@ -36,5 +36,8 @@ urlpatterns = [
     path('coupons/search/' , views.coupon_search, name = 'coupon_search'),
 
 
-    path('orders/', OrdersList.as_view(), name = "ordersList")
+    path('orders/', OrdersList.as_view(), name = "ordersList"),
+    path('order/status/<int:order_id>/', views.order_status, name = "ordersStatus"),
+
+    path('sales-data/', views.sales_data , name="sales_data"),
 ]

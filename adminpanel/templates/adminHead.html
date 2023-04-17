@@ -17,6 +17,9 @@
             {% elif 'admin/coupons/' in request.path %}Coupon Managment
             {% elif 'admin/coupon/create/' in request.path %}Add Coupon
             {% elif 'admin/coupon-edit' in request.path %}Edit Coupon
+
+            {% elif 'admin/orders/' in request.path %}Order Managment
+            {% elif 'admin/order/status/' in request.path %}Edit Orders
             {% endif %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/tailwind.output.css' %}" />
@@ -28,5 +31,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer ></script>
     <script src="{% static 'js/charts-lines.js' %}" defer></script>
     <script src="{% static 'js/charts-pie.js' %}" defer></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
 
   </head>
