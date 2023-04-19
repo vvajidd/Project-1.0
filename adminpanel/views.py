@@ -358,7 +358,12 @@ def sales_data(request):
          start_date = request.POST['start_date']
          end_date = request.POST['end_date']
          order = Payment.objects.filter(created_at__range=[start_date, end_date])
-         total_amount_paid = order.aggregate(Sum('amount_paid'))['amount_paid__sum']
+         
+         try:
+            total_amount_paid = order.aggregate(Sum('amount_paid'))['amount_paid__sum']
+         except Exception as e:
+            raise e 
+         
          context = {
              'order' : order,
              'total_amount_paid' : total_amount_paid,
