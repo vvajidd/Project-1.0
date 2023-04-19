@@ -5,19 +5,15 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.views.generic.edit import UpdateView, CreateView
 from django.db.models import Q
 from django.db.models import Sum
-from django.utils import timezone
-import calendar
-from datetime import datetime,timedelta
 
 from accounts.models import Account
 from accounts.forms import UserForm
 from category.forms import CategoryForm
 from products.models import Product
-from orders.models import OrderProduct, Coupon, Order, Payment
+from orders.models import Coupon, Order, Payment
 from orders.forms import CouponForm
 from category.models import Category
 from products.forms import ProductForm
@@ -32,7 +28,7 @@ def adminLogin(request):
 
         user = authenticate(email = email, password = password)
 
-        if user is not None and user.is_superadmin:
+        if user is not None:
             login(request, user)
             return redirect('adminDashboard')
         else:
