@@ -166,6 +166,8 @@ else:
         os.path.join(BASE_DIR, 'adminpanel', 'static'),
     ]
 
+ADMINS = [('Vajid', 'av.enterprise.87@gmail.com')]
+
 # media file configuration
 if DEBUG == True:
     MEDIA_URL = 'media/'
