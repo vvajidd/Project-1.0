@@ -353,21 +353,21 @@ def order_status(request, order_id):
 
     return render(request, 'orderStatus.html', context)
 
-def sales_data(request):
-    if request.method == 'POST':
-         start_date = request.POST['start_date']
-         end_date = request.POST['end_date']
-         order = Payment.objects.filter(created_at__range=[start_date, end_date])
+# def sales_data(request):
+#     if request.method == 'POST':
+#          start_date = request.POST['start_date']
+#          end_date = request.POST['end_date']
+#          order = Payment.objects.filter(created_at__range=[start_date, end_date])
          
-         try:
-            total_amount_paid = order.aggregate(Sum('amount_paid'))['amount_paid__sum']
-         except Exception as e:
-            raise e 
+#          try:
+#             total_amount_paid = order.aggregate(Sum('amount_paid'))['amount_paid__sum']
+#          except Exception as e:
+#             raise e 
          
-         context = {
-             'order' : order,
-             'total_amount_paid' : total_amount_paid,
-         }
-         return render(request, 'sales_report.html', context)
-    return render(request, 'sales_report.html')
+#          context = {
+#              'order' : order,
+#              'total_amount_paid' : total_amount_paid,
+#          }
+#          return render(request, 'sales_report.html', context)
+#     return render(request, 'sales_report.html')
     
