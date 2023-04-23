@@ -346,6 +346,7 @@ def order_status(request, order_id):
                     messages.error(request, 'This action can\'t be done since this product is not Cancelled !')
             else:
                 messages.error(request, 'Cash on Delivery Orders cant be refunded!')
+        return redirect('ordersList')
 
     context ={
         'order' : order,
