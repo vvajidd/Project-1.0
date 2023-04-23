@@ -50,7 +50,7 @@ class AdminDashboard(UserPassesTestMixin, LoginRequiredMixin, TemplateView ):
         context['user_count'] = Account.objects.all().count()
         context['product_count'] = Product.objects.all().count()
         context['order_count'] = Order.objects.all().count()
-        context['total_amount'] = Payment.objects.aggregate(Sum('amount_paid'))['amount_paid__sum']/100
+        # context['total_amount'] = Payment.objects.aggregate(Sum('amount_paid'))['amount_paid__sum']/100
 
 
         return context
