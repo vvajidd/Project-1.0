@@ -45,19 +45,44 @@
                 {{ form.category }}
             </div>
             <button type="submit" class="button px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add Product</button>
+
+            <script>
+                // Wait for the page to finish loading
+                document.addEventListener('DOMContentLoaded', function() {
+              
+                  // Get a reference to the product name and slug input fields
+                  const productNameField = document.getElementById('form.product_name');
+                  const productSlugField = document.getElementById('form.slug');
+              
+                  // Generate a slug based on the product name
+                  function generateSlug() {
+                    const productNameValue = productNameField.value.trim();
+                    const productSlugValue = productNameValue.toLowerCase().replace(/\s+/g, '-');
+                    productSlugField.value = productSlugValue;
+                  }
+              
+                  // Update the slug whenever the product name changes
+                  productNameField.addEventListener('input', generateSlug);
+              
+                });
+              </script>
+
     </form>
         
     </div>
   </main>
 
-  <script>
-    const product_nameField = document.getElementById('product_name');
-    const slugField = document.getElementById('slug');
-  
-    product_nameField.addEventListener('input', () => {
-      const product_nameValue = product_nameField.value;
-      const slugValue = product_nameValue.toLowerCase().replace(/\s+/g, '-');
-      slugField.value = slugValue;
-    });
-  </script>
+    {% comment %} <script>
+        const product_nameField = document.getElementById('product_name');
+        const slugField = document.getElementById('slug');
+    
+        product_nameField.addEventListener('input', () => {
+        const product_nameValue = product_nameField.value;
+        const slugValue = product_nameValue.toLowerCase().replace(/\s+/g, '-');
+        slugField.value = slugValue;
+        });
+    </script> {% endcomment %}
+    
+    
+
 {% endblock content %}

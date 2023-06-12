@@ -292,6 +292,21 @@ def cod(request):
     return render(request, 'orderSuccess.html', context)
 # ================================================================================ C O D ===================================================================================
 
+
+def whatsapp_redirect(request):
+    phone_number = '918589813673'  # Replace with the desired phone number
+    message_text = """  Order Number : {{ order.number comes here }}
+    Address : {{ address comes here }}
+    Product : {{ product name here }}
+    quantity : {{ quantity comes here }}
+    amount payable : {{ total amount here }}"""
+    whatsapp_url = f"https://api.whatsapp.com/send?phone={phone_number}&text={message_text}"
+    return redirect(whatsapp_url)
+
+
+# ========================================================================== W H A T S A P P ==============================================================================
+
+
 # @csrf_exempt
 # def razorpay_payment(request):
 #     grand_total = request.session.get('grand_total', None)
